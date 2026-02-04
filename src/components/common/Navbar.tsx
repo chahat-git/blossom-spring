@@ -11,7 +11,7 @@ const Navbar: React.FC = () => {
   const location = useLocation();
 
   const navLinks = [
-    { name: 'Home', path: '/' },
+    { name: 'Home', path: '/blossom-spring/' },
     { name: 'Features', path: '/features' },
     { name: 'Virtual Designer', path: '/designer' },
     { name: 'Community', path: '/community' },

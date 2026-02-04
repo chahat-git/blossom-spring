@@ -16,6 +16,68 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2368d391' fill-opacity='0.1'%3E%3Cpath d='M30 30c0-16.569 13.431-30 30-30v30c-16.569 0-30 13.431-30 30C13.431 60 0 46.569 0 30 0 13.431 13.431 0 30 0v30z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
+/* Continuous rotating animation for logo */
+@keyframes continuous-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Logo Animations - Cute and Attractive */
+.logo-entrance {
+  animation: logo-pop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes logo-pop {
+  0% {
+    transform: scale(0) rotate(-45deg);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.15) rotate(5deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes gentle-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 8px 16px rgba(104, 211, 145, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 12px 24px rgba(104, 211, 145, 0.5));
+  }
+}
+
+@keyframes petal-sway {
+  0%, 100% {
+    transform: rotate(0deg) translateY(0px);
+  }
+  25% {
+    transform: rotate(2deg) translateY(-2px);
+  }
+  50% {
+    transform: rotate(0deg) translateY(0px);
+  }
+  75% {
+    transform: rotate(-2deg) translateY(-2px);
+  }
+}
+
+@keyframes text-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 3px rgba(147, 51, 234, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(147, 51, 234, 0.6));
+  }
+}
+
 .bloom-animation {
   animation: bloom 2s ease-out forwards;
   transform-origin: center;
@@ -73,6 +135,18 @@ body {
   }
   to {
     transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Feature cards fade-in-up animation */
+@keyframes fadeInUp {
+  from {
+    transform: translateY(30px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
     opacity: 1;
   }
 }

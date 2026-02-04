@@ -61,13 +61,13 @@ const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 px-4 text-center leafy-pattern">
+      <section className="relative py-20 px-4 text-center leafy-pattern overflow-hidden">
         <div className="max-w-4xl mx-auto">
-          <div className="mb-8">
-            <AnimatedLogo size={120} />
+          <div className="mb-8 flex justify-center">
+            <AnimatedLogo size={150} />
           </div>
           
-          <h2 className="text-7xl font-bold gradient-text mb-4 slide-in-up">
+          <h2 className="text-7xl font-bold gradient-text mb-6 slide-in-up whitespace-nowrap leading-tight">
             Blossom☘Spring
           </h2>
           
@@ -90,8 +90,8 @@ const HomePage: React.FC = () => {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center slide-in-up" style={{ animationDelay: '0.6s' }}>
             <Link
-              to="/signup"
-              className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-flex items-center justify-center hover-lift"
+              to="/loading"
+              className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-flex items-center justify-center hover-lift" 
             >
               Get Started
               <ArrowRight className="ml-2" size={20} />
@@ -117,11 +117,21 @@ const HomePage: React.FC = () => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="text-center p-6 rounded-lg bg-gray-50 hover:bg-white hover:shadow-lg transition-all duration-300 hover-lift"
+                className="relative text-center p-6 rounded-lg bg-gradient-to-br from-green-100 via-green-50 to-emerald-100 hover:from-green-400 hover:via-green-300 hover:to-emerald-400 hover:shadow-2xl transition-all duration-500 hover-lift group overflow-hidden"
+                style={{
+                  animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`
+                }}
               >
-                <div className="mb-4 flex justify-center">{feature.icon}</div>
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                {/* Animated gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-30 transform -skew-x-12 group-hover:translate-x-full transition-all duration-700"></div>
+                
+                <div className="relative z-10">
+                  <div className="mb-4 flex justify-center group-hover:scale-110 transition-transform duration-300">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                  <p className="text-gray-700">{feature.description}</p>
+                </div>
               </div>
             ))}
           </div>

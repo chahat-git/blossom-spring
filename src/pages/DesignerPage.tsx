@@ -1,10 +1,10 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { useUser } from '../contexts/UserContext';
-import { Save, Download, Trash2, RotateCcw, Grid, Move, Plus } from 'lucide-react';
+import { Save, Trash2, RotateCcw, Grid, Plus } from 'lucide-react';
 
 interface DesignItem {
   id: string;
-  type: 'plant' | 'pot' | 'furniture' | 'decor';
+  type: 'plant' | 'pot' | 'furniture' | 'sample';
   name: string;
   x: number;
   y: number;
@@ -24,25 +24,34 @@ const DesignerPage: React.FC = () => {
   const canvasRef = useRef<HTMLDivElement>(null);
 
   const plantLibrary = [
-    { id: 'plant1', name: 'Monstera', image: 'https://images.pexels.com/photos/6208086/pexels-photo-6208086.jpeg?auto=compress&cs=tinysrgb&w=150', size: { width: 80, height: 80 } },
-    { id: 'plant2', name: 'Snake Plant', image: 'https://images.pexels.com/photos/4505166/pexels-photo-4505166.jpeg?auto=compress&cs=tinysrgb&w=150', size: { width: 60, height: 100 } },
-    { id: 'plant3', name: 'Fiddle Leaf', image: 'https://images.pexels.com/photos/4790314/pexels-photo-4790314.jpeg?auto=compress&cs=tinysrgb&w=150', size: { width: 70, height: 120 } },
-    { id: 'plant4', name: 'Rubber Plant', image: 'https://images.pexels.com/photos/4503273/pexels-photo-4503273.jpeg?auto=compress&cs=tinysrgb&w=150', size: { width: 75, height: 90 } }
+    { id: 'plant1', name: 'Dieffenbachia plant', image: 'https://m.media-amazon.com/images/I/81BjLUaT-DL._AC_UF1000,1000_QL80_.jpg', size: { width: 80, height: 80 } },
+    { id: 'plant2', name: 'Snake Plant', image: 'https://planaplant.com/cdn/shop/products/fiber2_494x544.jpg?v=1671022787', size: { width: 110, height: 160 } },
+    { id: 'plant3', name: 'Strelitzia nicolai', image: 'https://www.vogueandvine.com.au/wp-content/uploads/2024/03/Garden-Designer-Manly-Sydney-scaled.jpg', size: { width: 100, height: 120 } },
+    { id: 'plant4', name: 'Cordyline Plant', image: 'https://unlimitedgreens.com/cdn/shop/products/Dracaena-Kedarnath.webp?v=1764934185&width=768', size: { width: 75, height: 90 } }
   ];
 
   const potLibrary = [
-    { id: 'pot1', name: 'Ceramic White', image: 'https://images.pexels.com/photos/4503734/pexels-photo-4503734.jpeg?auto=compress&cs=tinysrgb&w=150', size: { width: 50, height: 40 } },
-    { id: 'pot2', name: 'Terracotta', image: 'https://images.pexels.com/photos/4503735/pexels-photo-4503735.jpeg?auto=compress&cs=tinysrgb&w=150', size: { width: 60, height: 45 } },
-    { id: 'pot3', name: 'Modern Black', image: 'https://images.pexels.com/photos/4503736/pexels-photo-4503736.jpeg?auto=compress&cs=tinysrgb&w=150', size: { width: 55, height: 50 } }
+    { id: 'pot1', name: 'Buddha Statue', image: 'https://www.wallofgardens.com/wp-content/uploads/2024/10/8-2.png', size: { width: 140, height: 150 } },
+    { id: 'pot2', name: 'Hanging Basket', image: 'https://i.etsystatic.com/26436589/r/il/0140cb/7636006613/il_fullxfull.7636006613_jzjc.jpg', size: { width: 100, height: 110 } },
+    { id: 'pot3', name: 'Plant Stand', image: 'https://rukminim2.flixcart.com/image/480/640/knw2v0w0/plant-container-set/3/g/7/1-multi-tier-plant-stand-flower-pot-stand-for-balcony-living-original-imag2gbzgzhvzqzf.jpeg?q=90', size: { width: 140, height: 170 } },
+    {id: 'pot4', name: 'Lamps', image: 'https://m.media-amazon.com/images/I/61amOEB3DEL._AC_UF1000,1000_QL80_.jpg', size: { width: 95, height: 85 } }
   ];
 
   const furnitureLibrary = [
-    { id: 'table1', name: 'Garden Table', image: 'https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg?auto=compress&cs=tinysrgb&w=150', size: { width: 120, height: 80 } },
-    { id: 'chair1', name: 'Outdoor Chair', image: 'https://images.pexels.com/photos/2343467/pexels-photo-2343467.jpeg?auto=compress&cs=tinysrgb&w=150', size: { width: 60, height: 60 } },
-    { id: 'shelf1', name: 'Plant Shelf', image: 'https://images.pexels.com/photos/4503737/pexels-photo-4503737.jpeg?auto=compress&cs=tinysrgb&w=150', size: { width: 100, height: 120 } }
+    { id: 'table1', name: 'Outdoor Chair', image: 'https://jumanji.livspace-cdn.com/magazine/wp-content/uploads/sites/2/2024/03/14151327/garden-design-for-balcony-terracotta.jpg', size: { width: 120, height: 140 } },
+    { id: 'chair1', name: 'Garden Table', image: 'https://i0.wp.com/archwhispers.com/wp-content/uploads/2025/11/Dreamy-Apartment-Balcony-Garden-Ideas-Filled-With-Plants-Lights-Colorful-Seating-and-Creative-Garden-Ideas-Glowing-in-Warm-Sunlight.png?resize=800%2C425&ssl=1', size: { width: 100, height: 100} },
+    { id: 'shelf1', name: 'Garden Mirror', image: 'https://www.rockettstgeorge.co.uk/cdn/shop/products/rockettstgeorge-antique-gold-small-ornate-mirror-lores-1.jpg?v=1683725388', size: { width: 100, height: 120 } },
+    { id: 'shelf2', name: 'Hanging light', image: 'https://assets-news.housing.com/news/wp-content/uploads/2022/11/25144306/Hanging-lights-for-balcony-05.jpg', size: { width: 100, height: 120 } }
   ];
 
-  const handleDragStart = useCallback((item: any, type: 'plant' | 'pot' | 'furniture') => {
+  const sampledesigns = [
+    { id: 'table1', name: 'Design 1', image: 'https://thumbs.dreamstime.com/b/beautifully-decorated-balcony-potted-plants-greenery-hanging-lanterns-warm-light-cityscape-under-night-sky-beautifully-311231434.jpg', size: { width: 120, height: 80 } },
+    { id: 'chair1', name: 'Design 2', image: 'https://st.hzcdn.com/simgs/426109a9009e19d8_14-6691/_.jpg', size: { width: 60, height: 60 } },
+    { id: 'shelf1', name: 'Design 3', image: 'https://i.pinimg.com/236x/8a/f1/62/8af16236c2ebe2f129ab72be18fbb921.jpg', size: { width: 100, height: 120 } },
+    { id: 'shelf2', name: 'Design 4', image: 'https://www.thatlittleshop.co.za/wp-content/uploads/2024/02/Incorporate-some-lighting-768x432.jpg', size: { width: 100, height: 120 } }
+  ];
+
+  const handleDragStart = useCallback((item: any, type: 'plant' | 'pot' | 'furniture' | 'sample') => {
     const newItem: DesignItem = {
       id: `${type}_${Date.now()}`,
       type,
@@ -211,8 +220,9 @@ const DesignerPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Canvas */}
-          <div className="lg:col-span-2">
+          {/* Controls */}
+          <div className="lg:col-span-2 flex flex-col gap-6">
+            {/* Canvas */}
             <div className="bg-white rounded-lg shadow-sm p-4">
               <div
                 ref={canvasRef}
@@ -279,10 +289,53 @@ const DesignerPage: React.FC = () => {
                 )}
               </div>
             </div>
+
+            {/* Sample Design Section - Bottom Area */}
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <h3 className="font-semibold text-gray-900 mb-4 text-lg">Sample Designs</h3>
+              <div className="grid grid-cols-2 gap-8">
+                {sampledesigns.map(sample => (
+                  <div
+                    key={sample.id}
+                    draggable
+                    onDragStart={() => handleDragStart(sample, 'sample')}
+                    className="bg-gray-50 rounded-lg p-4 cursor-move hover:bg-gray-100 hover:shadow-md transition-all"
+                  >
+                    <img 
+                      src={sample.image} 
+                      alt={sample.name}
+                      className="w-full h-64 object-cover rounded mb-4"
+                    />
+                    <p className="text-base text-center text-gray-700 font-medium">{sample.name}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
-          {/* Controls */}
+          {/* Main Controls */}
           <div className="lg:col-span-1 space-y-4">
+            {/* Quick Actions */}
+            <div className="bg-white rounded-lg shadow-sm p-4">
+              <h3 className="font-semibold text-gray-900 mb-3">Quick Actions</h3>
+              <div className="space-y-2">
+                <button
+                  onClick={saveCurrentDesign}
+                  className="w-full bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm flex items-center justify-center space-x-2 transition-colors"
+                >
+                  <Save size={16} />
+                  <span>Save</span>
+                </button>
+                <button
+                  onClick={clearCanvas}
+                  className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg text-sm flex items-center justify-center space-x-2 transition-colors"
+                >
+                  <Trash2 size={16} />
+                  <span>Clear</span>
+                </button>
+              </div>
+            </div>
+
             {/* Item Controls */}
             {selectedItem && (
               <div className="bg-white rounded-lg shadow-sm p-4">
@@ -305,27 +358,6 @@ const DesignerPage: React.FC = () => {
                 </div>
               </div>
             )}
-
-            {/* Canvas Controls */}
-            <div className="bg-white rounded-lg shadow-sm p-4">
-              <h3 className="font-semibold text-gray-900 mb-3">Canvas Controls</h3>
-              <div className="space-y-2">
-                <button
-                  onClick={saveCurrentDesign}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm flex items-center justify-center space-x-2 transition-colors"
-                >
-                  <Save size={16} />
-                  <span>Save Design</span>
-                </button>
-                <button
-                  onClick={clearCanvas}
-                  className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg text-sm flex items-center justify-center space-x-2 transition-colors"
-                >
-                  <Trash2 size={16} />
-                  <span>Clear All</span>
-                </button>
-              </div>
-            </div>
 
             {/* Design Tips */}
             <div className="bg-green-50 rounded-lg p-4">
